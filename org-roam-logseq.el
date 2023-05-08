@@ -48,7 +48,7 @@
 (defvar bill/rich-text-types '(bold italic subscript link strike-through superscript underline inline-src-block))
 ;; ignore files matching bill/logseq-exclude-pattern
 ;; default: exclude all files in the logseq/bak/ folder
-(defvar bill/logseq-exclude-pattern (string-join (list "^" bill/logseq-folder "/logseq/bak/.*$")))
+(defvar bill/logseq-exclude-pattern (string-join (list "^" (file-truename bill/logseq-folder) "/logseq/bak/.*$")))
 
 (defun bill/textify (headline)
   (save-excursion
@@ -170,7 +170,7 @@
             newlink))))))
 
 (defun bill/roam-file-modified-p (file-path)
-  (and (not (string-match-p bill/logseq-exclude-pattern file-path))
+  (and (not (string-match-p bill/logseq-exclude-pattern (file-truename file-path)))
        (let ((content-hash (org-roam-db--file-hash file-path))
              (db-hash (caar (org-roam-db-query [:select hash :from files
                                                         :where (= file $s1)] file-path))))
