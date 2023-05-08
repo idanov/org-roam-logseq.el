@@ -28,7 +28,7 @@
 
 ;; Your logseq directory should be inside your org-roam directory,
 ;; put the directory you use here
-(defvar bill/logseq-folder (f-expand (f-join org-roam-directory "logseq")))
+(defvar bill/logseq-folder org-roam-directory)
 
 ;; You probably don't need to change these values
 (defvar bill/logseq-pages (f-expand (f-join bill/logseq-folder "pages")))
@@ -37,7 +37,7 @@
 (defvar bill/rich-text-types '(bold italic subscript link strike-through superscript underline inline-src-block))
 ;; ignore files matching bill/logseq-exclude-pattern
 ;; default: exclude all files in the logseq/bak/ folder
-(defvar bill/logseq-exclude-pattern (string-join (list "^" bill/logseq-folder "/bak/.*$")))
+(defvar bill/logseq-exclude-pattern (string-join (list "^" bill/logseq-folder "/logseq/bak/.*$")))
 
 (defun bill/textify (headline)
   (save-excursion
