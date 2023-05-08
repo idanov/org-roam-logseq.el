@@ -1,3 +1,6 @@
+;;; org-roam-logseq.el --- description
+
+;;; Commentary:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
 ;;  BACK UP YOUR LOGSEQ DIR BEFORE RUNNING THIS!
@@ -20,6 +23,8 @@
 ;; If you have the setting :org-mode/insert-file-link? true in your Logseq config,
 ;; it won't convert the resulting links.
 ;;
+
+;;; Code:
 
 ;; Your logseq directory should be inside your org-roam directory,
 ;; put the directory you use here
