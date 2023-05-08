@@ -1,4 +1,14 @@
-;;; org-roam-logseq.el --- description
+;;; org-roam-logseq.el --- Org-roam Logseq converter -*- coding: utf-8; lexical-binding: t; -*-
+
+;; Copyright (C) Aug 4 2022, William R. Burdick Jr.
+
+;; Author: William R. Burdick Jr.
+;; URL: https://github.com/idanov/org-roam-logseq.el/
+;; Keywords: org-mode, roam, logseq
+;; Version: 0.1.0
+;; Package-Requires: ((org-roam "2.2.2"))
+
+;; This file is NOT part of GNU Emacs.
 
 ;;; Commentary:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -25,6 +35,7 @@
 ;;
 
 ;;; Code:
+(require 'org-roam)
 
 ;; Your logseq directory should be inside your org-roam directory,
 ;; put the directory you use here
