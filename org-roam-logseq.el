@@ -201,3 +201,7 @@
     (when bad
       (message "Bad items: %s" bad))
     nil))
+
+(provide 'org-roam-logseq)
+
+;;; org-roam-logseq.el ends here
