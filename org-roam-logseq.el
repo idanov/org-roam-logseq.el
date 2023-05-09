@@ -28,6 +28,7 @@
 ;; Logseq compatibility:
 ;; - put ids and titles at the tops of non-journal files
 ;; - change fuzzy links from [[PAGE]] to [[id:2324234234][PAGE]]
+;; - change fuzzy links from [[ALIAS]] to [[id:2324234234][ALIAS]]
 ;; - also change file links to id links, provided that the links
 ;;   expand to file names that have ids in the roam database.
 ;;

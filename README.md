@@ -9,7 +9,7 @@ There's a few prerequisites to making sure it will work.
 Ensure these settings are in your `config.edn`:
 ```clojure
 :preferred-format :org
-:org-mode/insert-file-link? true
+:org-mode/insert-file-link? false
 :journal/page-title-format "yyyy-MM-dd"
 :journal/file-name-format "yyyy_MM_dd"
 ```
