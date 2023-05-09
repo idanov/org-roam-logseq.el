@@ -213,6 +213,12 @@
       (message "Bad items: %s" bad))
     nil))
 
+(defun org-roam-logseq-hook ()
+  "Setup the current buffer if it visits an Org-roam file."
+  (when (org-roam-file-p) (bill/convert-logseq-file (current-buffer))))
+
+(add-hook 'find-file-hook #'org-roam-logseq-hook)
+
 (provide 'org-roam-logseq)
 
 ;;; org-roam-logseq.el ends here
