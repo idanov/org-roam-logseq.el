@@ -144,14 +144,21 @@
 
 (defun bill/reformat-link (link)
   (let (filename
+        title
         id
         linktext
         newlink)
     (when (eq 'link (org-element-type link))
       (when (equal "fuzzy" (org-element-property :type link))
-        (setq filename (f-expand (f-join bill/logseq-pages
-                                         (concat (org-element-property :path link) ".org"))))
-        (setq linktext (org-element-property :raw-link link)))
+        ;; TODO ensure fuzzy links work with aliases
+        (setq title (org-element-property :raw-link link))
+        (setq filename (caar (org-roam-db-query [:select file :from nodes
+                                                         :where (= title $s1)] title)))
+        (setq linktext (if-let ((contents-begin (org-element-property :contents-begin link))
+                                (contents-end (org-element-property :contents-end link)))
+                           (buffer-substring-no-properties contents-begin contents-end)
+                           (org-element-property :raw-link link)
+                         )))
       (when (equal "file" (org-element-property :type link))
         ;; TODO create a workaround for Logseq's bug with aliases
         (setq filename (f-expand (replace-regexp-in-string "\\..//" "/" (org-element-property :path link))))
