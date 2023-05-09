@@ -218,8 +218,11 @@
     nil))
 
 (defun org-roam-logseq-hook ()
-  "Setup the current buffer if it visits an Org-roam file."
-  (when (org-roam-file-p) (bill/convert-logseq-file (current-buffer))))
+  "Process any org-roam files on accessing if they have logseq links."
+  (when (org-roam-file-p)
+    (progn
+      (bill/ensure-file-id (buffer-file-name (current-buffer)))
+      (bill/convert-logseq-file (current-buffer)))))
 
 (add-hook 'find-file-hook #'org-roam-logseq-hook)
 
