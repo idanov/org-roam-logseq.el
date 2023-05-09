@@ -150,10 +150,17 @@
         newlink)
     (when (eq 'link (org-element-type link))
       (when (equal "fuzzy" (org-element-property :type link))
-        ;; TODO ensure fuzzy links work with aliases
         (setq title (org-element-property :raw-link link))
-        (setq filename (caar (org-roam-db-query [:select file :from nodes
-                                                         :where (= title $s1)] title)))
+        ;; fetch the filename by scanning the db for title and alias (in that order)
+        (setq filename (caar (org-roam-db-query [:select :distinct [nodes:file]
+                                                         :from nodes
+                                                         :where (= nodes:title $s1)
+                                                         :union
+                                                         :select :distinct [nodes:file]
+                                                         :from aliases
+                                                         :left-join nodes
+                                                         :on (= aliases:node-id nodes:id)
+                                                         :where (= aliases:alias $s1)] title)))
         (setq linktext (if-let ((contents-begin (org-element-property :contents-begin link))
                                 (contents-end (org-element-property :contents-end link)))
                            (buffer-substring-no-properties contents-begin contents-end)
