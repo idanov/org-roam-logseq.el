@@ -108,8 +108,10 @@
             (insert "\n")
             (goto-char (1- (point)))
             (setq org (org-element-parse-buffer)))
-          ;; copy the first headline to the title
-          (insert (format "#+title: %s" (string-trim (bill/textify (nth 3 org)))))))
+          ;; in case of no title, make the title the same as the filename
+          (let (title (file-name-sans-extension (file-name-nondirectory (buffer-file-name (current-buffer)))))
+            (insert (format "#+title: %s" title)))
+          ))
       ;; ensure org-roam knows about the new id and/or title
       (when changed (save-buffer))
       (cons new-buf buf))))
