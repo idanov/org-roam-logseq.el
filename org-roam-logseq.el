@@ -12,7 +12,6 @@
 
 ;;; Commentary:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
 ;;  BACK UP YOUR LOGSEQ DIR BEFORE RUNNING THIS!
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -130,7 +129,8 @@
           (goto-char (org-element-property :begin link))
           (delete-region (org-element-property :begin link) (org-element-property :end link))
           ;; note, this format string is reall =[[%s][%s]]= but =%= is a markup char so one's hidden
-          (insert newlink)))
+          (insert newlink)
+          (message "Convering logseq file %s link from %s to %s" (buffer-file-name buf) (org-element-property :raw-link link) newlink)))
       ;; ensure org-roam knows about the changed links
       (when changed (save-buffer)))))
 
