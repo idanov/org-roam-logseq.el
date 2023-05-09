@@ -111,7 +111,7 @@
             (goto-char (1- (point)))
             (setq org (org-element-parse-buffer)))
           ;; in case of no title, make the title the same as the filename
-          (let (title (file-name-sans-extension (file-name-nondirectory (buffer-file-name (current-buffer)))))
+          (let ((title (file-name-sans-extension (file-name-nondirectory file))))
             (insert (format "#+title: %s" title)))
           ))
       ;; ensure org-roam knows about the new id and/or title
