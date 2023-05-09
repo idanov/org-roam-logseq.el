@@ -192,28 +192,38 @@
 
 (defun bill/check-logseq ()
   (interactive)
-  (let (created
-        files
-        bufs
-        unmodified
-        cur
-        bad
-        buf)
-    (setq files (org-roam--list-files bill/logseq-folder))
+  (setq files (org-roam--list-files bill/logseq-folder))
+  (message "bill/check-logseq is processing %d" (length files))
+  (org-roam-logseq-patch files)
+  )
+
+(defun bill/check-logseq-unsynced ()
+  (interactive)
+  (setq files (org-roam--list-files bill/logseq-folder))
+  (setq files-in-db (apply #'append (org-roam-db-query [:select file :from files])))
+  (setq unsynced-files (cl-set-difference files files-in-db :test #'file-equal-p))
+  (message "bill/check-logseq-unsynced is processing %d" (length unsynced-files))
+  (org-roam-logseq-patch unsynced-files)
+  )
+
+(defun org-roam-logseq-patch (files)
+  (let (created bufs unmodified cur bad buf)
     ;; make sure all the files have file ids
     (dolist (file-path files)
       (setq file-path (f-expand file-path))
       (setq cur (bill/ensure-file-id file-path))
       (setq buf (cdr cur))
       (push buf bufs)
-      (when (and (not (bill/logseq-journal-p file-path)) (not buf))
+      (when (and (not (bill/logseq-journal-p file-path))
+                 (not buf))
         (push file-path bad))
       (when (not (buffer-modified-p buf))
         (push buf unmodified))
       (when (car cur)
         (push buf created)))
     ;; patch fuzzy links
-    (mapc 'bill/convert-logseq-file (seq-filter 'identity bufs))
+    (mapc 'bill/convert-logseq-file
+          (seq-filter 'identity bufs))
     (dolist (buf unmodified)
       (when (buffer-modified-p buf)
         (save-buffer unmodified)))
