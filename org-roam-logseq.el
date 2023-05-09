@@ -78,6 +78,8 @@
   "Visit an existing file, ensure it has an id, return whether the a new buffer was created"
   (setq file (f-expand file))
   (if (bill/logseq-journal-p file)
+      ;; do nothing for journal files
+      ;; TODO double check this is actually desired behaviour
       `(nil . nil)
     (let* ((buf (get-file-buffer file))
            (was-modified (buffer-modified-p buf))
@@ -151,7 +153,8 @@
                                          (concat (org-element-property :path link) ".org"))))
         (setq linktext (org-element-property :raw-link link)))
       (when (equal "file" (org-element-property :type link))
-        (setq filename (f-expand (org-element-property :path link)))
+        ;; TODO create a workaround for Logseq's bug with aliases
+        (setq filename (f-expand (replace-regexp-in-string "\\..//" "/" (org-element-property :path link))))
         (if (org-element-property :contents-begin link)
             (setq linktext (buffer-substring-no-properties
                             (org-element-property :contents-begin link)
