@@ -22,18 +22,20 @@
 ;; This code is dual-licensed with MIT and GPL licenses.
 ;; Take your pick and abide by whichever license appeals to you.
 ;;
-;; logseq compatibility
+;; Logseq compatibility
 ;; put ids and titles at the tops of non-journal files
 ;; change fuzzy links from [[PAGE]] to [[id:2324234234][PAGE]]
 ;; also change file links to id links, provided that the links
 ;; expand to file names that have ids in the roam database.
 ;;
-;; NOTE: this currently only converts fuzzy links.
+;; NOTE: This currently only converts fuzzy links.
 ;; If you have the setting :org-mode/insert-file-link? true in your Logseq config,
-;; it won't convert the resulting links.
+;; it converts the resulting links only if they are not alias links due to a bug in Logseq:
+;;    https://github.com/logseq/logseq/issues/9342
 ;;
 
 ;;; Code:
+(require 'cl-lib)
 (require 'org-roam)
 
 ;; Your logseq directory should be inside your org-roam directory,
