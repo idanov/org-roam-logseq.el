@@ -48,30 +48,9 @@
 ;; You probably don't need to change these values
 (defvar bill/logseq-pages (f-expand (f-join bill/logseq-folder "pages")))
 (defvar bill/logseq-journals (f-expand (f-join bill/logseq-folder "journals")))
-;;(defvar bill/rich-text-types [bold italic subscript link strike-through superscript underline inline-src-block footnote-reference inline-babel-call entity])
-(defvar bill/rich-text-types '(bold italic subscript link strike-through superscript underline inline-src-block))
 ;; ignore files matching bill/logseq-exclude-pattern
 ;; default: exclude all files in the logseq/bak/ folder
 (defvar bill/logseq-exclude-pattern (string-join (list "^" (file-truename bill/logseq-folder) "/logseq/bak/.*$")))
-
-(defun bill/textify (headline)
-  (save-excursion
-    (apply 'concat (flatten-list
-                    (bill/textify-all (org-element-property :title headline))))))
-
-(defun bill/textify-all (nodes) (mapcar 'bill/subtextify nodes))
-
-(defun bill/with-length (str) (cons (length str) str))
-
-(defun bill/subtextify (node)
-  (cond ((not node) "")
-        ((stringp node) (substring-no-properties node))
-        ((member (org-element-type node) bill/rich-text-types)
-         (list (bill/textify-all (cddr node))
-               (if (> (org-element-property :post-blank node))
-                   (make-string (org-element-property :post-blank node) ?\s)
-               "")))
-        (t "")))
 
 (defun bill/logseq-journal-p (file) (string-match-p (concat "^" bill/logseq-journals) file))
 
