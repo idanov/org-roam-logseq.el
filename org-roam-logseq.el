@@ -133,18 +133,18 @@
         (setq title (org-element-property :raw-link link))
         ;; fetch the filename by scanning the db for title and alias (in that order)
         (setq filename (caar (org-roam-db-query [:select :distinct [nodes:file]
-                                                         :from nodes
-                                                         :where (= nodes:title $s1)
-                                                         :union
-                                                         :select :distinct [nodes:file]
-                                                         :from aliases
-                                                         :left-join nodes
-                                                         :on (= aliases:node-id nodes:id)
-                                                         :where (= aliases:alias $s1)] title)))
+                                                 :from nodes
+                                                 :where (= nodes:title $s1)
+                                                 :union
+                                                 :select :distinct [nodes:file]
+                                                 :from aliases
+                                                 :left-join nodes
+                                                 :on (= aliases:node-id nodes:id)
+                                                 :where (= aliases:alias $s1)] title)))
         (setq linktext (if-let ((contents-begin (org-element-property :contents-begin link))
                                 (contents-end (org-element-property :contents-end link)))
                            (buffer-substring-no-properties contents-begin contents-end)
-                           (org-element-property :raw-link link)
+                         (org-element-property :raw-link link)
                          )))
       (when (equal "file" (org-element-property :type link))
         ;; TODO create a workaround for Logseq's bug with aliases
@@ -176,7 +176,7 @@
   (and (not (string-match-p bill/logseq-exclude-pattern (file-truename file-path)))
        (let ((content-hash (org-roam-db--file-hash file-path))
              (db-hash (caar (org-roam-db-query [:select hash :from files
-                                                        :where (= file $s1)] file-path))))
+                                                :where (= file $s1)] file-path))))
          (not (string= content-hash db-hash)))))
 
 (defun bill/modified-logseq-files ()
@@ -228,7 +228,8 @@
 
 (defun org-roam-logseq-hook ()
   "Process any org-roam files on accessing if they have logseq links."
-  (when (org-roam-file-p)
+  (when (and (org-roam-file-p)
+             (/= (buffer-size (current-buffer)) 0))
     (progn
       (bill/ensure-file-id (buffer-file-name (current-buffer)))
       (bill/convert-logseq-file (current-buffer)))))
