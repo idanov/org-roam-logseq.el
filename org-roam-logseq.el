@@ -5,8 +5,8 @@
 ;; Author: Ivan Danov
 ;; URL: https://github.com/idanov/org-roam-logseq.el/
 ;; Keywords: org-mode, roam, logseq
-;; Version: 0.1.0
-;; Package-Requires: ((org-roam "2.2.2") (cl-lib))
+;; Version: 0.1.1
+;; Package-Requires: ((emacs "27.2") (org-roam "2.2.2"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -39,6 +39,7 @@
 
 ;;; Code:
 (require 'cl-lib)
+(require 'org)
 (require 'org-roam)
 
 ;; Your logseq directory should be inside your org-roam directory,
@@ -227,14 +228,14 @@
     nil))
 
 (defun org-roam-logseq-hook ()
-  "Process any org-roam files on accessing if they have logseq links."
+  "Process any non-empty org-roam files on accessing if they have logseq links."
   (when (and (org-roam-file-p)
              (/= (buffer-size (current-buffer)) 0))
     (progn
       (bill/ensure-file-id (buffer-file-name (current-buffer)))
       (bill/convert-logseq-file (current-buffer)))))
 
-(add-hook 'find-file-hook #'org-roam-logseq-hook)
+(add-hook 'org-mode-hook #'org-roam-logseq-hook)
 
 (provide 'org-roam-logseq)
 

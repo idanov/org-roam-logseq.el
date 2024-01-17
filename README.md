@@ -48,6 +48,13 @@ Ensure these settings are in your `config.edn`:
                                             :target (file+head "%<%Y_%m_%d>.org" "#+title: %<%Y-%m-%d>\n"))))
 ```
 
+# Contributions
+
+Contributions are welcome, though it might take me a while to merge them.
+Many thanks to [@sbougerel](https://github.com/sbougerel) for fixing two issues:
+ - [Double ID's when creating with org-roam](https://github.com/idanov/org-roam-logseq.el/issues/1)
+ - [Error ‘org-element-at-point’ cannot be used in non-Org buffer](https://github.com/idanov/org-roam-logseq.el/issues/3)
+
 # Credits
 
 This repository is based on and inspired by [this gist](https://gist.github.com/zot/ddf1a89a567fea73bc3c8a209d48f527).
